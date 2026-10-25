@@ -13,10 +13,11 @@
     ./memory.nix
     ./audio.nix
     ./laptop.nix
-    ./ibus.nix
+    ./fcitx5.nix
     ./desktop-common.nix
     ./niri-noctalia.nix
     ./noctalia-greeter.nix
+    ./xdg-portals.nix
 
     # Home Manager is integrated into nixos-rebuild.
     ./home-manager.nix

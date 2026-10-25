@@ -11,7 +11,7 @@ let
 
   niriDir = "${config.xdg.configHome}/niri";
 
-  niriConfig = pkgs.runCommand "niri-config" { nativeBuildInputs = [ pkgs.niri ]; } ''
+  niriConfig = pkgs.runCommand "niri-config" { nativeBuildInputs = [ pkgs.unstable.niri ]; } ''
     mkdir -p $out
     cp --no-preserve=mode ${./config.kdl} $out/config.kdl
     cp -r --no-preserve=mode ${./cfg} $out/cfg

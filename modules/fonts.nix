@@ -4,6 +4,7 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-color-emoji
+      noto-fonts-cjk-sans
       nerd-fonts.meslo-lg
       nerd-fonts.jetbrains-mono
       inter

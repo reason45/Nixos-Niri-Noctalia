@@ -1,9 +1,9 @@
-# Memory tuning for 8 GB of RAM: compressed RAM swap, swap behaviour, and an
-# early OOM killer so the desktop never freezes when memory runs out.
+
+# Memory tuning for 8 GB of RAM: compressed RAM swap, swap behaviour, and
+# early OOM handling to help keep the desktop responsive under memory pressure.
 { ... }:
 {
-  # zram: compressed swap in RAM. Much faster than the disk swap partition,
-  # which stays in hardware-configuration.nix as a lower-priority fallback.
+  # zram: compressed swap in RAM. No disk swap device is currently active.
   zramSwap = {
     enable = true;
     algorithm = "zstd";
@@ -11,13 +11,15 @@
   };
 
   boot.kernel.sysctl = {
-    "vm.swappiness" = 100; # prefer zram over dropping the page cache
-    "vm.page-cluster" = 0; # no read-ahead on compressed swap
+    "vm.swappiness" = 100; # Allow the kernel to use zram readily.
+    "vm.page-cluster" = 0; # Disable swap readahead.
   };
 
-  # Kills the biggest offender early instead of letting the system lock up.
+  # Terminates processes under severe memory pressure to reduce the risk
+  # of the system becoming unresponsive.
   services.earlyoom = {
     enable = true;
     enableNotifications = true;
   };
 }
+

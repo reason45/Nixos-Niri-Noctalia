@@ -7,6 +7,7 @@
     ./fastfetch.nix
     ./packages.nix
     ./niri/niri.nix
+    ./mimeapps.nix
   ];
 
   # Preserve the Home Manager state version.

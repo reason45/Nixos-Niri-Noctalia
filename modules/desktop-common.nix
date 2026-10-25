@@ -5,4 +5,6 @@
   services.accounts-daemon.enable = true; # user avatars on greeters
   services.gvfs.enable = true; # trash, mounts, network places in file managers
   security.polkit.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  services.udisks2.enable = true;
 }

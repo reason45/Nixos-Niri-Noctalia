@@ -12,7 +12,7 @@
     gtk.enable = true;
   };
 
-  # GTK apps read these through dconf (programs.dconf.enable is in modules/desktops/common.nix).
+  # GTK theme and fonts
   dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = "prefer-dark";
     font-name = "Inter 12";
@@ -20,5 +20,15 @@
     monospace-font-name = "JetBrainsMono Nerd Font 12";
     gtk-theme = "Orchis-Dark";
     icon-theme = "Tela-dark";
+  };
+
+  # Qt theme
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+    style = {
+      name = "Breeze";
+      package = pkgs.kdePackages.breeze;
+    };
   };
 }

@@ -1,4 +1,10 @@
-// ────────────── Input ──────────────
+// Disable the top-left hot corner that opens Overview.
+gestures {
+    hot-corners {
+        off
+    }
+}
+ // ────────────── Input ──────────────
 input {
     keyboard {
         xkb {

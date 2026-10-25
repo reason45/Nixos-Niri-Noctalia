@@ -2,3 +2,5 @@
 # Nix build output symlink
 result
 home/Noctalia/bar.toml.backup
+backup.zip
+*.bak

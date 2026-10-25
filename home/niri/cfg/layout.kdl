@@ -1,6 +1,6 @@
 // ────────────── Layout ──────────────
 layout {
-    gaps 5                                   // space between windows
+    gaps 10                                   // space between windows
     center-focused-column "never"             // don't auto-center the focused column
 
     background-color "transparent"            // required so Noctalia's wallpaper shows through

@@ -1,12 +1,16 @@
-# ── Wallpapers ───────────────────────────────────────────────────
-# The folder itself is user data (not in this repo). The currently shown
-# wallpaper is runtime state, so it is deliberately NOT pinned here.
 [wallpaper]
 directory = "@home@/Pictures/Wallpapers"
+transition_on_startup = true
 
-[wallpaper.automation]
-enabled = true
-interval_seconds = 120
+    [wallpaper.automation]
+    enabled = true
+    interval_seconds = 120
 
-[wallpaper.default]
-path = "@home@/Pictures/Wallpapers/redditislikefb-astral-summit.png"
+    [wallpaper.default]
+    path = "@home@/Pictures/Wallpapers/ogarart-sunset-2.jpg"
+
+    [wallpaper.last]
+    path = "@home@/Pictures/Wallpapers/ogarart-sunset-2.jpg"
+
+    [wallpaper.monitors.eDP-1]
+    path = "@home@/Pictures/Wallpapers/ogarart-sunset-2.jpg"

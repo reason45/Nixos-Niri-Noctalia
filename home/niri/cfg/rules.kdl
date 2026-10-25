@@ -26,10 +26,10 @@ window-rule {
     open-floating true
 }
 
-// Hide password managers from screenshots and screen sharing.
-/-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+// Hide Bitwarden from screen capture.
+window-rule {
+    match app-id=r#"^bitwarden$"#
     block-out-from "screen-capture"
 }
 

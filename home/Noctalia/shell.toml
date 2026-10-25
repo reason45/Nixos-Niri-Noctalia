@@ -1,23 +1,21 @@
-# ── General shell behaviour and services ─────────────────────────
 [shell]
-font_family = "Inter"
-polkit_agent = true               # Noctalia is the auth-popup agent (no separate polkit agent needed)
-password_style = "random"
-screen_time_enabled = true
+clipboard_auto_paste = "ctrl_v"
 clipboard_confirm_clear_history = false
-clipboard_keep_from_closed_apps = false
+clipboard_keep_from_closed_apps = true
+font_family = "Noto Sans"
+password_style = "random"
+polkit_agent = true
+screen_time_enabled = true
+settings_show_advanced = false
 
-[location]
-address = "Kathmandu,Nepal"       # weather + night-light sunrise/sunset
+    [shell.greeter_sync]
+    auto_sync = true
 
-[nightlight]
-enabled = true
+    [shell.launcher]
+    categories = false
+    default_view = "all"
+    layout = "simple"
 
-[battery]
-warning_threshold = 20
-
-[notification]
-history_retention_hours = 1
-
-[osd]
-background_opacity = 0.7
+    [shell.panel]
+    session_placement = "floating"
+    session_position = "center"

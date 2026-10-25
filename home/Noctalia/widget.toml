@@ -1,0 +1,7 @@
+[widget.cat]
+run_threshold = 40
+type = "dotnetrob/cat:cat"
+[widget.media]
+enabled = false
+[widget.switch]
+type = "kavya-nama/wallpaper-switcher:switch"

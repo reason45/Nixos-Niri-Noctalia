@@ -10,6 +10,11 @@
     memoryPercent = 50;
   };
 
+   #Fileswap
+   swapDevices = [
+   { device = "/swapfile"; priority = 0; }
+     ];
+
   boot.kernel.sysctl = {
     "vm.swappiness" = 100; # Allow the kernel to use zram readily.
     "vm.page-cluster" = 0; # Disable swap readahead.

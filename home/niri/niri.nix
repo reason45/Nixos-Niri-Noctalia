@@ -11,7 +11,6 @@
     alacritty
     nautilus
     playerctl
-    papers
     xwayland
     xwayland-satellite
     

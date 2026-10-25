@@ -8,5 +8,6 @@ mode = "auto"                     # follows light/dark
 # these apps' configs is also managed by Home Manager (starship.toml is), drop
 # that id here or stop managing the file in Nix.
 [theme.templates]
-builtin_ids   = [ "niri" ]
+enable_builtin_templates = true
+builtin_ids   = [ "niri", "gtk3", "gtk4", "qt", "alacritty" ]
 community_ids = [ "libreoffice", "neovim", "obsidian", "fcitx5" ]

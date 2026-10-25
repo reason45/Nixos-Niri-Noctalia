@@ -12,7 +12,10 @@
     };
 
     initExtra = ''
-      fastfetch
+      if [[ $- == *i* && -n "$XDG_RUNTIME_DIR" && ! -e "$XDG_RUNTIME_DIR/fastfetch-shown" ]]; then
+        touch "$XDG_RUNTIME_DIR/fastfetch-shown"
+        fastfetch
+      fi
     '';
   };
 

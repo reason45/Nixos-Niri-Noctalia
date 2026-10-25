@@ -1,40 +1,113 @@
+{ lib, ... }:
 
-{ ... }:
+let
+  # Map one app to many MIME types.
+  assign = app: types: lib.genAttrs types (_: app);
 
+  firefox = "firefox.desktop";
+  papers = "org.gnome.Papers.desktop";
+  mousepad = "org.xfce.mousepad.desktop";
+  nautilus = "org.gnome.Nautilus.desktop";
+  imv = "imv.desktop";
+  mpv = "mpv.desktop";
+  roller = "org.gnome.FileRoller.desktop";
+  writer = "writer.desktop";
+  calc = "calc.desktop";
+  impress = "impress.desktop";
+in
 {
   xdg.mimeApps = {
     enable = true;
-    defaultApplications = {
-      # Web
-      "text/html" = "firefox.desktop";
-      "application/xhtml+xml" = "firefox.desktop";
-      "x-scheme-handler/http" = "firefox.desktop";
-      "x-scheme-handler/https" = "firefox.desktop";
 
-      # Documents
-      "application/pdf" = "org.gnome.Papers.desktop";
-      "text/plain" = "org.xfce.mousepad.desktop";
+    defaultApplications =
+      # Web
+      assign firefox [
+        "text/html"
+        "application/xhtml+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+        "x-scheme-handler/about"
+        "x-scheme-handler/unknown"
+        "image/svg+xml"
+      ]
+
+      # PDF
+      // assign papers [ "application/pdf" ]
 
       # File manager
-      "inode/directory" = "org.gnome.Nautilus.desktop";
+      // assign nautilus [ "inode/directory" ]
+
+      # Text and code
+      // assign mousepad [
+        "text/plain"
+        "text/markdown"
+        "application/json"
+        "application/x-shellscript"
+        "text/x-python"
+      ]
 
       # Images
-      "image/png" = "imv.desktop";
-      "image/jpeg" = "imv.desktop";
-      "image/webp" = "imv.desktop";
-      "image/gif" = "imv.desktop";
-      "image/tiff" = "imv.desktop";
-      "image/bmp" = "imv.desktop";
+      // assign imv [
+        "image/png"
+        "image/jpeg"
+        "image/webp"
+        "image/gif"
+        "image/tiff"
+        "image/bmp"
+        "image/avif"
+      ]
 
       # Video and audio
-      "video/mp4" = "mpv.desktop";
-      "video/webm" = "mpv.desktop";
-      "video/x-matroska" = "mpv.desktop";
-      "video/ogg" = "mpv.desktop";
-      "audio/mpeg" = "mpv.desktop";
-      "audio/ogg" = "mpv.desktop";
-      "audio/flac" = "mpv.desktop";
-      "audio/wav" = "mpv.desktop";
-    };
+      // assign mpv [
+        "video/mp4"
+        "video/webm"
+        "video/x-matroska"
+        "video/ogg"
+        "video/x-msvideo"
+        "video/quicktime"
+        "audio/mpeg"
+        "audio/ogg"
+        "audio/flac"
+        "audio/x-flac"
+        "audio/wav"
+        "audio/x-wav"
+        "audio/mp4"
+        "audio/aac"
+        "audio/opus"
+      ]
+
+      # Archives
+      // assign roller [
+        "application/zip"
+        "application/gzip"
+        "application/x-tar"
+        "application/x-7z-compressed"
+        "application/vnd.rar"
+        "application/x-xz"
+        "application/x-bzip2"
+      ]
+
+      # Office: documents
+      // assign writer [
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "application/vnd.oasis.opendocument.text"
+        "application/msword"
+        "application/rtf"
+      ]
+
+      # Office: spreadsheets
+      // assign calc [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.oasis.opendocument.spreadsheet"
+        "application/vnd.ms-excel"
+        "text/csv"
+      ]
+
+      # Office: presentations
+      // assign impress [
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        "application/vnd.oasis.opendocument.presentation"
+        "application/vnd.ms-powerpoint"
+      ];
   };
 }

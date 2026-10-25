@@ -7,6 +7,10 @@
   fd
 
   # Password manager, office suite, archive manager, calculator
+   imv
+   mpv
+   papers
+   mousepad
    bitwarden-desktop
    libreoffice
    file-roller

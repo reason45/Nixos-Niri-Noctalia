@@ -11,9 +11,13 @@
       rebuild = "nh os switch";
       rebuild-boot = "nh os boot";
       rebuild-test = "nh os test";
+      # Gentle: same policy as the weekly timer, keeps a week of rollback.
+      clean = "home-manager expire-generations \"-7 days\" && nh clean all --keep-since 7d --keep 3 && nh os boot";
+      # Deep: current generation only, no rollback.
+      clean-all = "home-manager expire-generations now && nh clean all --keep 1 && nh os boot";
 
       # Home Manager only: no sudo, no full system rebuild.
-      hm = "nh home switch -b backup -c sanzay";
+      hms = "nh home switch -b backup -c sanzay";
     };
 
     # Show fastfetch once per boot, in the first interactive shell.

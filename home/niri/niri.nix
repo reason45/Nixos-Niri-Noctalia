@@ -11,7 +11,6 @@
     alacritty
     nautilus
     playerctl
-    neovim-gtk
     papers
     
   ];

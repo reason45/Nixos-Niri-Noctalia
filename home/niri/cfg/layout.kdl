@@ -1,6 +1,6 @@
 // ────────────── Layout ──────────────
 layout {
-    gaps 10                                   // space between windows
+    gaps 5                                   // space between windows
     center-focused-column "never"             // don't auto-center the focused column
 
     background-color "transparent"            // required so Noctalia's wallpaper shows through
@@ -47,5 +47,5 @@ layout {
 
 // ────────────── Overview ──────────────
 overview {
-    zoom 0.5                                  // how far windows zoom out in Mod+O
+    zoom 0.75                                  // how far windows zoom out in Mod+O
 }

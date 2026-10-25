@@ -11,5 +11,9 @@
 
   environment.systemPackages = with pkgs; [
     git
+    mousepad
+    mpv
+    imv
+    papers
   ];
 }

@@ -1,4 +1,3 @@
-{ ... }:
 {
   programs.bash = {
     enable = true;
@@ -7,11 +6,9 @@
       ls = "ls --color=auto";
       grep = "grep --color=auto";
 
-      # Test the system configuration without switching.
-      rebuild-check = "sudo nixos-rebuild dry-build";
-
-      # Apply the system and Home Manager configuration.
-      rebuild = "sudo nixos-rebuild switch";
+      rebuild-switch = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
+      rebuild-boot = "sudo nixos-rebuild boot --flake /etc/nixos#nixos";
+      rebuild-build = "sudo nixos-rebuild build --flake /etc/nixos#nixos";
     };
 
     initExtra = ''

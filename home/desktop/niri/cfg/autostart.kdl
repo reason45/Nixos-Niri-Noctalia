@@ -1,0 +1,7 @@
+// ────────────── Startup ──────────────
+spawn-at-startup "noctalia"                   // Noctalia shell: bar, launcher, notifications, wallpaper, lock
+
+// Not started here on purpose:
+//  • input method (fcitx5) — enabled system-wide (modules/desktop/fcitx5.nix) and
+//    started by the session's XDG autostart.
+//  • polkit agent — Noctalia has its own ([shell] polkit_agent = true in noctalia/shell.toml).

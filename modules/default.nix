@@ -1,25 +1,26 @@
+# Shared system modules, grouped by purpose.
 { ... }:
 {
   imports = [
-    ./boot.nix
-    ./nix.nix
-    ./locale.nix
-    ./users.nix
-    ./networking.nix
-    ./fonts.nix
-    ./packages.nix
-    ./graphics.nix
-    ./intel.nix
-    ./memory.nix
-    ./audio.nix
-    ./laptop.nix
-    ./fcitx5.nix
-    ./desktop-common.nix
-    ./niri-noctalia.nix
-    ./noctalia-greeter.nix
-    ./xdg-portals.nix
+    # core
+    ./core/boot.nix
+    ./core/nix.nix
+    ./core/locale.nix
+    ./core/users.nix
+    ./core/networking.nix
 
-    # Home Manager is integrated into nixos-rebuild.
-    ./home-manager.nix
+    # hardware
+    ./hardware/graphics.nix
+    ./hardware/intel.nix
+    ./hardware/memory.nix
+    ./hardware/audio.nix
+    ./hardware/laptop.nix
+
+    # desktop
+    ./desktop/fonts.nix
+    ./desktop/fcitx5.nix
+    ./desktop/common.nix
+    ./desktop/niri.nix
+    ./desktop/greeter.nix
   ];
 }

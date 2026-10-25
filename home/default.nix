@@ -1,15 +1,12 @@
-
+{ ... }:
 {
   imports = [
-    ./shell.nix
-    ./starship.nix
-    ./git.nix
-    ./fastfetch.nix
-    ./packages.nix
-    ./niri/niri.nix
-    ./mimeapps.nix
+    ./shell
+    ./apps
+    ./desktop
   ];
 
-  # Preserve the Home Manager state version.
+  programs.home-manager.enable = true; # puts the `home-manager` command on PATH
+
   home.stateVersion = "26.05";
 }

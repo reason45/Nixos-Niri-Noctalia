@@ -14,7 +14,7 @@ layout {
 
     // Thin gradient ring on the focused window instead of a full border.
     focus-ring {
-        width 2
+        width 4
         active-gradient from="#89b4fa" to="#cba6f7" angle=45
         inactive-color "#45475a80"
     }

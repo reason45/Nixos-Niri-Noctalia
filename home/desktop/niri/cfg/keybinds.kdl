@@ -13,10 +13,11 @@ binds {
     Mod+Alt+L     hotkey-overlay-title="Lock screen"            { spawn-sh "noctalia msg screen-lock || noctalia msg session lock"; }
     Mod+Shift+Q   hotkey-overlay-title="Session menu"           { spawn-sh "noctalia msg panel-toggle session"; }
     Mod+Shift+T   hotkey-overlay-title="Toggle dark/light"      { spawn-sh "noctalia msg theme-mode-toggle"; }
-
+    Mod+D       hotkey-overlay-title="Launcher"  { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+Ctrl+V  hotkey-overlay-title="Clipboard" { spawn-sh "noctalia msg panel-toggle clipboard"; }
+    
     // Screen reader toggle (kept from your config).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
-
+    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; } #Dont need orca
     // ─── Audio (Noctalia v5 shows its own OSD) ───
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }

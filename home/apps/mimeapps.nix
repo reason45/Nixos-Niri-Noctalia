@@ -76,17 +76,6 @@ in
         "audio/opus"
       ]
 
-      # Archives
-      // assign roller [
-        "application/zip"
-        "application/gzip"
-        "application/x-tar"
-        "application/x-7z-compressed"
-        "application/vnd.rar"
-        "application/x-xz"
-        "application/x-bzip2"
-      ]
-
       # Office: documents
       // assign writer [
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"

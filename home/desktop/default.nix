@@ -20,4 +20,8 @@
     size = 24;
     gtk.enable = true;
   };
-}
+  
+  # Wallpapers addon
+  home.file."Pictures/Wallpapers" = { source = ./wallpapers;  recursive = true; };
+  home.file."Pictures/Screenshots/.keep".text = "";
+  }

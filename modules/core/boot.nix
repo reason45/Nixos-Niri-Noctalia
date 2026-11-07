@@ -1,10 +1,22 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  # sbctl creates and manages the Secure Boot keys. See the "Secure Boot"
+  # section of README.md for the one-time setup order.
+  environment.systemPackages = [ pkgs.sbctl ];
+
   boot.loader = {
-    systemd-boot = {
+    systemd-boot.enable = false;
+
+    limine = {
       enable = true;
-      editor = false;
-      configurationLimit = 4;
+      maxGenerations = 4;
+
+      # Signs Limine with the keys in /var/lib/sbctl. The keys must exist and
+      # be enrolled BEFORE the rebuild that turns this on, or it fails.
+      secureBoot.enable = true;
+      style = {
+        wallpapers = [];
+      };
     };
 
     efi = {
@@ -12,9 +24,7 @@
       efiSysMountPoint = "/boot";
     };
 
-    # 0 = boot straight into the default entry. Dual-boot note: hold Space
-    # during startup to get the boot menu (e.g. to pick Windows).
-    timeout = 0;
+    timeout = 3;
   };
 
   boot.plymouth = {

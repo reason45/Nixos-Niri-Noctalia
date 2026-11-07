@@ -10,4 +10,9 @@
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
   hardware.enableRedistributableFirmware = true;
+
+  # Carried over from the GNOME config: load i915 early, and turn off panel
+  # self refresh, a known cause of dim or flickering laptop panels.
+  boot.initrd.kernelModules = [ "i915" ];
+  boot.kernelParams = [ "i915.enable_psr=0" ];
 }

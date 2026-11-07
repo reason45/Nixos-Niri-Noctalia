@@ -38,7 +38,7 @@ Niri · Noctalia · Firefox · fully declarative, reproducible from a bare disk
 | **RAM** | 8 GB (tuned: zram + swapfile + earlyoom) |
 | **Display** | 1920x1080 internal panel (`eDP-1`), 1.33x fractional scale |
 | **Storage** | SSD, UEFI, three ext4/vfat partitions: `/boot`, `/`, `/home` |
-| **Boot** | systemd-boot, dual-boot with Windows |
+| **Boot** | Limine (Secure Boot via sbctl), dual-boot with Windows |
 | **Host name** | `Latitude-5410` |
 | **User** | `sanzay` |
 
@@ -262,8 +262,19 @@ If a build still gets killed, lower `max-jobs` to 1.
 
 ### Windows dual boot
 - `time.hardwareClockInLocalTime = true` stops Windows and Linux fighting over the clock.
-- `boot.loader.timeout = 0` boots straight into NixOS. **Hold `Space` while powering on** to reach the boot menu and pick Windows.
-- `configurationLimit = 4` keeps the ESP from filling with old generations. Windows shares that partition, so keep it small.
+- `boot.loader.timeout = 3` shows the Limine menu for 3 seconds, where you pick NixOS or Windows.
+- `limine.maxGenerations = 4` keeps the ESP from filling with old generations. Windows shares that partition, so keep it small.
+
+### Secure Boot (Limine + sbctl)
+`modules/core/boot.nix` sets `boot.loader.limine.secureBoot.enable = true` and installs `sbctl`. Order matters, because the rebuild fails if the keys are missing:
+
+1. `sudo sbctl create-keys` (keys go to `/var/lib/sbctl`). Before the config is applied, use `nix shell nixpkgs#sbctl -c sudo sbctl create-keys`.
+2. In the UEFI firmware, put Secure Boot into **Setup Mode** (reset to Setup Mode, or clear the keys), then boot back into NixOS.
+3. `sudo sbctl enroll-keys --microsoft` (the `--microsoft` keys keep Windows bootable).
+4. `rebuild`, reboot, and turn Secure Boot **on** in the firmware if it is not already.
+5. Check with `sbctl status` and `bootctl status`.
+
+Keep `/var/lib/sbctl` backed up somewhere safe and offline.
 
 ### Intel graphics and CPU
 - `intel-media-driver` with `LIBVA_DRIVER_NAME=iHD` gives hardware video decode on Comet Lake.
@@ -303,7 +314,7 @@ No secrets are stored in this repo. The git identity uses a GitHub noreply addre
 | Situation | What to do |
 |---|---|
 | Last system change misbehaves | `sudo nixos-rebuild switch --rollback` |
-| System will not boot | hold `Space` at power-on, pick an older generation |
+| System will not boot | pick an older generation in the Limine menu |
 | Last `hm` change broke something | `home-manager generations`, then run the `activate` script of an older one |
 | Bad config edit | `git diff` / `git checkout -- <file>`, then rebuild |
 | Niri config typo | `hm` refuses to build it (validated), so nothing breaks |

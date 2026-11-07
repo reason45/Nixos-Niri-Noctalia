@@ -9,9 +9,10 @@
     memoryPercent = 50;
   };
 
-  # Disk swap overflow; lower priority than zram. The file must already exist.
+  # Disk swap overflow; lower priority than zram. With `size`, NixOS creates
+  # the file itself (size is in MiB, so 4096 = 4 GiB).
   swapDevices = [
-    { device = "/swapfile"; priority = 0; }
+    { device = "/swapfile"; size = 4096; priority = 0; }
   ];
 
   boot.kernel.sysctl = {

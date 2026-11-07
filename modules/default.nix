@@ -8,6 +8,7 @@
     ./core/locale.nix
     ./core/users.nix
     ./core/networking.nix
+    ./core/services.nix
 
     # hardware
     ./hardware/graphics.nix

@@ -2,7 +2,9 @@
 {
   programs.git = {
     enable = true;
-    settings.user.name = "Sanjayawosti";
-    settings.user.email = "340031061+sanjayawosti@users.noreply.github.com";
+    settings.user.name = "reason45";
+    settings.user.email = "340031061+reason45@users.noreply.github.com";
+    settings.init.defaultBranch = "main";
+    settings.push.autoSetupRemote = true;
   };
 }

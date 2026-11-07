@@ -11,7 +11,19 @@
       AutofillAddressEnabled = false;
       AutofillCreditCardEnabled = false;
 
+      DisableFormHistory = true;
+      SearchEngines.Default = "DuckDuckGo";
+
+      Bookmarks = [
+        { Title = "Proton Mail"; URL = "https://mail.proton.me"; Placement = "menu"; }
+        { Title = "ChatGPT"; URL = "https://chatgpt.com"; Placement = "menu"; }
+        { Title = "YouTube"; URL = "https://www.youtube.com"; Placement = "menu"; }
+        { Title = "Facebook"; URL = "https://www.facebook.com"; Placement = "menu"; }
+        { Title = "Reddit"; URL = "https://www.reddit.com"; Placement = "menu"; }
+      ];
+
       FirefoxHome = {
+        Search = true;
         TopSites = false;
         SponsoredTopSites = false;
         SponsoredStories = false;
@@ -53,6 +65,7 @@
     profiles.default = {
       settings = {
         "browser.toolbars.bookmarks.visibility" = "never";
+        "media.ffmpeg.vaapi.enabled" = true; # hardware video decode (iHD)
 
         # New tab / address bar noise
         "browser.discovery.enabled" = false;
@@ -62,7 +75,15 @@
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
-        "browser.newtabpage.activity-stream.showSearch" = false;
+        "browser.newtabpage.activity-stream.showSearch" = true;
+        "browser.urlbar.suggest.history" = false;
+        "browser.urlbar.suggest.bookmark" = true;
+        "browser.urlbar.suggest.openpage" = false;
+        "browser.urlbar.suggest.recentsearches" = false;
+        "browser.urlbar.suggest.searches" = false;
+        "browser.urlbar.suggest.quickactions" = false;
+        "browser.urlbar.showSearchTerms.enabled" = false;
+        "browser.urlbar.showSearchSuggestionsFirst" = false;
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
         "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
         "browser.urlbar.suggest.addons" = false;

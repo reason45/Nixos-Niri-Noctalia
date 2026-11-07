@@ -11,5 +11,6 @@
     mousepad
     bitwarden-desktop
     libreoffice
+    localsend # send files to and from a phone
   ];
 }

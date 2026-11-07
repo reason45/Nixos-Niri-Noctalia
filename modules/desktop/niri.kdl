@@ -1,0 +1,381 @@
+// ════════════════════════════════════════════════════════════════
+//            niri config  —  managed by NixOS (system-wide)
+//   Source: modules/desktop/niri.kdl
+//   Installed as /etc/xdg/niri/config.kdl
+// ════════════════════════════════════════════════════════════════
+//
+// Sections, in order: autostart, keybinds, input, display, layout,
+// animations, window/layer rules, misc (environment, cursor, screenshots).
+// display is the PER-MACHINE part: run `niri msg outputs` on a new laptop.
+
+
+// ────────────── Startup ──────────────
+spawn-at-startup "noctalia"                   // Noctalia shell: bar, launcher, notifications, wallpaper, lock
+
+// Not started here on purpose:
+//  • input method (fcitx5) — enabled system-wide (modules/desktop/fcitx5.nix) and
+//    started by the session's XDG autostart.
+//  • polkit agent — Noctalia has its own ([shell] polkit_agent = true in noctalia/shell.toml).
+
+// ────────────── Keybinds ──────────────
+// Mod = Super on a normal session. Mod+Shift+/ shows the hotkey cheat sheet.
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // ─── Apps ───
+    Mod+T      hotkey-overlay-title="Terminal: alacritty"       { spawn "alacritty"; }
+    Mod+B      hotkey-overlay-title="Browser: firefox"          { spawn "firefox"; }
+    Mod+E      hotkey-overlay-title="Files: nautilus"           { spawn "nautilus"; }
+
+    // ─── Noctalia shell ───
+    Mod+A         hotkey-overlay-title="Control center"         { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Alt+L     hotkey-overlay-title="Lock screen"            { spawn-sh "noctalia msg screen-lock || noctalia msg session lock"; }
+    Mod+Shift+Q   hotkey-overlay-title="Session menu"           { spawn-sh "noctalia msg panel-toggle session"; }
+    Mod+Shift+T   hotkey-overlay-title="Toggle dark/light"      { spawn-sh "noctalia msg theme-mode-toggle"; }
+    Mod+D       hotkey-overlay-title="Launcher"  { spawn-sh "noctalia msg panel-toggle launcher"; }
+    Mod+Ctrl+V  hotkey-overlay-title="Clipboard" { spawn-sh "noctalia msg panel-toggle clipboard"; }
+    
+    // Screen reader toggle (kept from your config).
+    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; } #Dont need orca
+    // ─── Audio (Noctalia v5 shows its own OSD) ───
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "noctalia msg volume-mute"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "noctalia msg mic-mute"; }
+
+    // ─── Media (any MPRIS player) ───
+    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
+
+    // ─── Brightness (Noctalia OSD) ───
+    XF86MonBrightnessUp   allow-when-locked=true { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "noctalia msg brightness-down"; }
+
+    // ─── Windows ───
+    Mod+Q repeat=false { close-window; }
+    Mod+O repeat=false { toggle-overview; }
+
+    // Focus (arrow keys)
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+
+    // Move windows/columns
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Down  { move-window-down; }
+
+    Mod+Home      { focus-column-first; }
+    Mod+End       { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    // ─── Monitors ───
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Down  { focus-monitor-down; }
+
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+
+    // ─── Workspaces ───
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+Page_Up   { focus-workspace-up; }
+    Mod+U         { focus-workspace-down; }
+    Mod+I         { focus-workspace-up; }
+    Mod+Tab       { focus-workspace-previous; }       // jump to last used workspace
+
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
+    Mod+Ctrl+U         { move-column-to-workspace-down; }
+    Mod+Ctrl+I         { move-column-to-workspace-up; }
+
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Shift+U         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
+
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+    // ─── Mouse wheel ───
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // ─── Columns & sizing ───
+    Mod+BracketLeft  { consume-or-expel-window-left; }   // merge/split window into neighbouring column
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Comma  { consume-window-into-column; }           // pull right window into this column
+    Mod+Period { expel-window-from-column; }             // push bottom window out to the right
+
+    Mod+R            { switch-preset-column-width; }     // cycle 1/3 → 1/2 → 2/3
+    Mod+Shift+R      { switch-preset-column-width-back; }
+    Mod+Ctrl+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R       { reset-window-height; }
+
+    Mod+F       { maximize-column; }                     // fill screen but keep gaps
+    Mod+Shift+F { fullscreen-window; }
+    Mod+M       { maximize-window-to-edges; }            // true maximize, no gaps
+    Mod+Ctrl+F  { expand-column-to-available-width; }    // fill remaining free space
+    Mod+C       { center-column; }
+    Mod+Ctrl+C  { center-visible-columns; }
+
+    Mod+Minus       { set-column-width "-10%"; }
+    Mod+Equal       { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    Mod+V       { toggle-window-floating; }
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+W       { toggle-column-tabbed-display; }        // stack column as tabs
+
+    // ─── Screenshots ───
+    Print      { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print  { screenshot-window; }
+    Mod+Shift+S { screenshot; }
+
+    // ─── Session ───
+    // Escape hatch when a fullscreen/remote app swallows your shortcuts.
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Shift+E     { quit; }
+    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+P     { power-off-monitors; }              // screens off; any input wakes them
+}
+
+// Disable the top-left hot corner that opens Overview.
+gestures {
+    hot-corners {
+        off
+    }
+}
+ // ────────────── Input ──────────────
+input {
+    keyboard {
+        xkb {
+            layout "us"                       // keyboard layout
+        }
+        numlock                               // NumLock on at startup
+    }
+
+    touchpad {
+        tap                                   // tap to click
+        natural-scroll                        // macOS-style scrolling
+        dwt                                   // disable touchpad while typing
+        disabled-on-external-mouse            // touchpad off when a mouse is plugged in
+    }
+
+    // Focus windows by hovering; max-scroll-amount=0% stops the view
+    // from scrolling sideways just because the mouse touched an edge.
+    focus-follows-mouse max-scroll-amount="0%"
+
+    warp-mouse-to-focus                       // cursor jumps to the window you focus by keyboard
+    workspace-auto-back-and-forth             // pressing Mod+N on the current workspace goes back to the previous one
+}
+
+// ────────────── Display ──────────────
+// PER-MACHINE: this is the one file to edit on a different laptop/monitor.
+// Run `niri msg outputs` to see your output names.
+output "eDP-1" {
+    mode "1920x1080@59.999"
+    scale 1.33                                 // fractional scaling for the laptop panel
+    transform "normal"
+    // position x=0 y=0                       // set when you add a second monitor
+}
+
+// ────────────── Layout ──────────────
+layout {
+    gaps 10                                   // space between windows
+    center-focused-column "never"             // don't auto-center the focused column
+
+    background-color "transparent"            // required so Noctalia's wallpaper shows through
+
+    preset-column-widths {                    // cycled with Mod+R
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width { proportion 0.5; }  // new windows open at half width
+
+    // Thin gradient ring on the focused window instead of a full border.
+    focus-ring {
+        width 4
+        active-gradient from="#89b4fa" to="#cba6f7" angle=45
+        inactive-color "#45475a80"
+    }
+    border { off; }                           // ring is enough, no extra border
+
+    // Soft drop shadow gives windows depth.
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+    }
+
+    // Highlight showing where a dragged window will land.
+    insert-hint {
+        color "#89b4fa80"
+    }
+
+    // Tabbed column look (toggle with Mod+W).
+    tab-indicator {
+        hide-when-single-tab
+        place-within-column
+        gap 6
+        width 4
+        length total-proportion=0.5
+        corner-radius 2
+    }
+}
+
+// ────────────── Overview ──────────────
+overview {
+    zoom 0.75                                  // how far windows zoom out in Mod+O
+}
+
+// ────────────── Animations ──────────────
+// Springs feel snappy and natural; durations for simple fades.
+animations {
+    workspace-switch {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+    }
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+    window-resize {
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+    }
+    window-open {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
+    window-close {
+        duration-ms 200
+        curve "ease-out-cubic"
+    }
+    overview-open-close {
+        spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+    }
+    screenshot-ui-open {
+        duration-ms 300
+        curve "ease-out-quad"
+    }
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1200 epsilon=0.001
+    }
+}
+
+// ────────────── Window rules ──────────────
+// Rounded corners on every window (clip-to-geometry makes content follow the curve).
+window-rule {
+    geometry-corner-radius 16
+    clip-to-geometry true
+}
+
+// Slightly dim unfocused terminals so the active window stands out.
+window-rule {
+    match app-id=r#"^(Alacritty|foot|kitty)$"# is-active=false
+    opacity 0.92
+}
+
+// Terminal ignores the default half-width and uses wezterm's own size.
+// window-rule {
+//    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+//    default-column-width {}
+//}
+
+// Small utility windows float instead of tiling.
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // match app-id=r#"^org\.pulseaudio\.pavucontrol$"#
+    // match app-id=r#"^org\.gnome\.Calculator$"#
+    match title="^(Open File|Save File|Save As)$"
+    open-floating true
+}
+
+
+// Hide Bitwarden from screen capture.
+window-rule {
+    match app-id=r#"^bitwarden$"#
+    block-out-from "screen-capture"
+}
+
+// ────────────── Layer rules ──────────────
+// Put Noctalia's wallpaper in the overview backdrop so it stays behind zoomed-out workspaces.
+layer-rule {
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
+}
+
+// Disable blur behind the Noctalia bar.
+layer-rule {
+    match namespace="^noctalia-bar-"
+    background-effect {
+        blur false
+    }
+}
+
+// ────────────── Behaviour ──────────────
+prefer-no-csd                                 // ask apps to drop their own title bars
+hotkey-overlay { skip-at-startup; }           // hide the "important hotkeys" popup at login
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+cursor {
+    hide-when-typing                          // hide pointer while you type
+    hide-after-inactive-ms 3000               // and after 3s idle
+}
+
+environment {
+    ELECTRON_OZONE_PLATFORM_HINT "auto"       // Electron apps run native Wayland
+    QT_QPA_PLATFORM "wayland;xcb"             // Qt apps prefer Wayland, fall back to X11
+    QT_QPA_PLATFORMTHEME "qt6ct"              // Qt apps use qt6ct (themed by Noctalia)
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"   // no Qt-drawn title bars
+}
+
+debug {
+    // Lets Noctalia notifications activate/focus windows.
+    honor-xdg-activation-with-invalid-serial
+}
+
+// ────────────── Noctalia theme colours ──────────────
+// Generated by Noctalia at runtime (not part of this repo).
+// Home Manager creates an empty placeholder until Noctalia writes the real one.
+include "./noctalia.kdl"

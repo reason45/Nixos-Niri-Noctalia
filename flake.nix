@@ -1,61 +1,55 @@
 {
-  description = "Sanzay's NixOS + standalone Home Manager";
+  description = "Sanzay's pure NixOS flake (Niri + Noctalia, no Home Manager)";
 
   inputs = {
+    # Stable channel for the base system.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+
+    # Unstable for newer desktop packages (niri, noctalia, etc.).
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+    # Noctalia shell (NixOS module + package).
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      # Follow unstable so the module and package stay in sync with bleeding-edge deps.
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    # Greeter tightly coupled with Noctalia (greetd frontend).
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";
-      # Reuse our unstable nixpkgs instead of fetching a third copy.
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, noctalia-greeter, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, noctalia, noctalia-greeter, ... }:
     let
       system = "x86_64-linux";
 
-      # Exposes `pkgs.unstable.<name>` to both NixOS and Home Manager.
+      # Overlay that exposes pkgs.unstable.<pkg> everywhere.
       unstableOverlay = final: prev: {
-        unstable = import inputs.nixpkgs-unstable {
+        unstable = import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;
         };
       };
-
-      # Package set for standalone Home Manager.
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        overlays = [ unstableOverlay ];
-      };
     in
     {
-      # Name matches networking.hostName, so `nixos-rebuild switch --flake .`
-      # (or `nh os switch`) picks it automatically.
-      nixosConfigurations."Latitude-5410" = nixpkgs.lib.nixosSystem {
+      # Attribute name == networking.hostName, so
+      #   nixos-rebuild switch --flake .
+      # picks it automatically.
+      nixosConfigurations.sanzay = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit inputs; };
         modules = [
+          # Make the unstable overlay available to every module.
           { nixpkgs.overlays = [ unstableOverlay ]; }
-          ./hosts/latitude-5410
-          noctalia-greeter.nixosModules.default
-        ];
-      };
 
-      homeConfigurations.sanzay = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home
-          {
-            home.username = "sanzay";
-            home.homeDirectory = "/home/sanzay";
-          }
+          # Machine entry point (hostname, stateVersion, hardware, modules).
+          ./configuration.nix
+
+          # Noctalia greeter NixOS module (from the greeter flake).
+          noctalia-greeter.nixosModules.default
         ];
       };
     };
